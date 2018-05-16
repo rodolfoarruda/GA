@@ -93,12 +93,20 @@ return(sum(banco_avaliacao$V7))
 
 elite<-function(elem,elem2,popsize){
   
-    elem_elite <-  rbind(elem,elem2) %>%
+    aux1 <-  distinct(rbind(elem,elem2)) %>%
     arrange(desc(V7))%>% 
       mutate(N = row_number(desc(V7)))%>% 
         filter(N <= popsize) 
     
-    return(elem_elite[,1:12])
+    i = max(aux1$N)
+    print(i)
+    
+    if(i != popsize){
+      elem_elite <-rbind(aux1[,1:12],elem2[1:(popsize-i),])
+    }
+    else{elem_elite <- aux1[,1:12]}
+    
+    return(elem_elite)
   
 }
 
